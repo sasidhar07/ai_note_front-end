@@ -1,14 +1,21 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import Cookies from "js-cookie";
 import LoginPage from "./components/Login/login";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/SideBar";
 import SearchBar from "./components/SearchBar";
 import NoteList from "./components/NoteList";
 import NoteCreator from "./components/NoteCreator";
 import NoteModal from "./components/NoteModal";
 import NotFound from "./components/NotFound";
-import "./app.css";
+
+import "./App.css";
 
 const MainContent = () => {
   const [sortOrder, setSortOrder] = useState("asc");
@@ -29,24 +36,27 @@ const MainContent = () => {
     setError(null);
     try {
       const token = Cookies.get("jwt_token");
-      
-      const response = await fetch("https://ai-notes-backend-0c9d.onrender.com/api/notes", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      const response = await fetch(
+        "https://ai-notes-backend-0c9d.onrender.com/api/notes",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to fetch notes: ${response.statusText}`);
       }
 
       let data = await response.json();
-      
-      data = data.sort((a, b) => 
-        sortOrder === "asc" 
-          ? a.title.localeCompare(b.title) 
+
+      data = data.sort((a, b) =>
+        sortOrder === "asc"
+          ? a.title.localeCompare(b.title)
           : b.title.localeCompare(a.title)
       );
 
@@ -64,18 +74,21 @@ const MainContent = () => {
     fetchNotes();
   }, [fetchNotes]);
 
-  const handleSearch = useCallback((query) => {
-    if (!query) {
-      setFilteredNotes(notes);
-    } else {
-      const filtered = notes.filter(
-        (note) =>
-          note.title.toLowerCase().includes(query.toLowerCase()) ||
-          note.content.toLowerCase().includes(query.toLowerCase())
-      );
-      setFilteredNotes(filtered);
-    }
-  }, [notes]);
+  const handleSearch = useCallback(
+    (query) => {
+      if (!query) {
+        setFilteredNotes(notes);
+      } else {
+        const filtered = notes.filter(
+          (note) =>
+            note.title.toLowerCase().includes(query.toLowerCase()) ||
+            note.content.toLowerCase().includes(query.toLowerCase())
+        );
+        setFilteredNotes(filtered);
+      }
+    },
+    [notes]
+  );
 
   const handleSortOrderChange = useCallback(() => {
     setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
@@ -100,7 +113,9 @@ const MainContent = () => {
           <button
             className="sort-button"
             onClick={handleSortOrderChange}
-            aria-label={`Sort ${sortOrder === "asc" ? "descending" : "ascending"}`}
+            aria-label={`Sort ${
+              sortOrder === "asc" ? "descending" : "ascending"
+            }`}
           >
             Sort {sortOrder === "asc" ? "↑" : "↓"}
           </button>
@@ -108,13 +123,9 @@ const MainContent = () => {
             Logout
           </button>
         </header>
-        
-        {error && (
-          <div className="error-message">
-            Error: {error}
-          </div>
-        )}
-        
+
+        {error && <div className="error-message">Error: {error}</div>}
+
         {isLoading ? (
           <div className="loading-spinner">Loading...</div>
         ) : (
@@ -124,9 +135,9 @@ const MainContent = () => {
             onDelete={fetchNotes}
           />
         )}
-        
+
         <NoteCreator onNoteCreated={fetchNotes} />
-        
+
         {selectedNote && (
           <NoteModal
             note={selectedNote}
@@ -157,7 +168,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<NotFound/>}/>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
