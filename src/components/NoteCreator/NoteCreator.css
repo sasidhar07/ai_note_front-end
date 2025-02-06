@@ -1,0 +1,96 @@
+
+.note-creator {
+  margin-top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  border:1px solid rgb(132, 132, 132);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.note-creator form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.note-creator label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.note-creator textarea {
+  width: 98%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: vertical;
+  
+}
+
+.note-creator textarea:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+.note-creator input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.note-creator .image-preview {
+  margin-top: 10px;
+}
+
+.note-creator .image-preview img {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.note-creator .button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.note-creator button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.note-creator button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.note-creator button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.note-creator button[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.note-creator .record-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.note-creator .record-button.recording {
+  background-color: #e53935;
+}
+
+.note-creator .record-button:hover {
+  background-color: #d32f2f;
+}
